@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <conio.h>
+#include <windows.h>
 #include "category.c"
+
+// #include <windows.h>
+
 
 COORD coord= {0,0};                  // this is global variable
 
@@ -27,8 +30,158 @@ void SetColor(int ForgC) {
     return;
 }
 
-void ProdactMenu(ListOfProdacts *p) {
 
+void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
+   int X_Axies = 10;
+   int Y_Axies = 0;
+   int flag = 1;
+   do {
+      system("cls");
+      SetColor(15);
+      gotoxy(X_Axies,9);
+      printf("================================================\n");
+      for (int i = 0; i < P_COUNTER; i++) {
+         if(Y_Axies == i) {
+            SetColor(3);
+            gotoxy(X_Axies,i+10);
+            printf("\tName : %s\t ID: %d\t Cate ID: %d\n",p->arr[Y_Axies].name, p->arr[Y_Axies].id,  p->arr[Y_Axies].cat_id);
+         }
+         else {
+            SetColor(15);
+            gotoxy(X_Axies,i+10);
+            printf("\tName : %s\t ID: %d\t Cate ID: %d\n",p->arr[i].name, p->arr[i].id, p->arr[i].cat_id);
+         }
+         SetColor(15);
+         gotoxy(X_Axies,P_COUNTER+1);
+         printf("===============================================\n");
+      }
+      char ch;
+      ch = getch();
+      switch (ch) {
+      case -32:
+         ch = getch();
+         switch(ch) {
+         case 80:
+            Y_Axies++;
+            if(Y_Axies >= P_COUNTER) {
+               Y_Axies = 0;
+            }
+            break;
+         case 72:
+            Y_Axies--;
+            if(Y_Axies < 0) {
+               Y_Axies = P_COUNTER-1;
+            }
+            break;
+         default:
+            break;
+         }
+         break;
+      case 13:
+         int id;
+         int flag2 = 1;
+         while(flag2) {
+            system("cls");
+            printf("\t\tEnter Category Id to Move to: ");
+            scanf("%d", &id);
+            for(int i = 0; i < C_COUNTER; i++) {
+               if(id == c->arr[i].cat_id) {
+                  flag2 = 0;
+                  break;
+               }
+            }
+         }
+         p->arr[Y_Axies].cat_id = id;
+         break;
+      // case 27:
+      //    flag = 0;
+      //    break;
+      // default:
+      //    flag = 0;
+      //    break;
+      }
+      if(ch == 27) {
+         flag = 0;
+      }
+   }while(flag);
+}
+
+void ProdactMenu(ListOfCategory *c, ListOfProdacts *p) {
+   char ProdMenu[3][20] = {
+      "1- Add Prodact",
+      "2- Show Prodact",
+      "3- Move Prodact"
+   };
+   int X_Axies = 10;
+   int Y_Axies = 0;
+   int flag = 1;
+   do {
+      system("cls");
+      SetColor(15);
+      gotoxy(X_Axies,9);
+      printf("===========================");
+      for (int i = 0; i < 3; i++) {
+         if(Y_Axies == i) {
+            SetColor(3);
+            gotoxy(X_Axies,i+10);
+            printf("\t%s\n",ProdMenu[i]);
+         }
+         else {
+            SetColor(15);
+            gotoxy(X_Axies,i+10);
+            printf("\t%s\n", ProdMenu[i]);
+         }
+         SetColor(15);
+         gotoxy(X_Axies,13);
+         printf("===========================");
+      }
+      char ch;
+      ch = getch();
+      switch (ch)
+      {
+      case -32:
+         ch = getch();
+         switch(ch) {
+         case 80:
+            Y_Axies++;
+            if(Y_Axies > 2) {
+               Y_Axies = 0;
+            }
+            break;
+         case 72:
+            Y_Axies--;
+            if(Y_Axies < 0) {
+               Y_Axies = 2;
+            }
+            break;
+         }
+         break;
+      case 13:
+         switch (Y_Axies)
+         {
+         case 0:
+            system("cls");
+            push_back_p(p, addProdact());
+            break;
+         case 1:
+            system("cls");
+            DisplayProdacts(c, p);
+            getch();
+            break;
+         case 2:
+            system("cls");
+            moveProdact(c, p);
+            break;
+         default:
+            break;
+         }
+         break;
+      default:
+         break;
+   case 27:
+      flag = 0;
+      }
+   } while(flag);
 }
 
 void BuyMenu() {
@@ -92,6 +245,7 @@ void CategoryMenu(ListOfCategory *c) {
          case 1:
             system("cls");
             ShowCategorys(c);
+            getch();
             break;
          default:
             break;
@@ -166,7 +320,7 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
             break;
          case 1:
             system("cls");
-            ProdactMenu(p);
+            ProdactMenu(c, p);
             break;
          case 2:
             system("cls");
@@ -180,8 +334,6 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
          break;
       }
    }
-
-
 }
 
 int main () {

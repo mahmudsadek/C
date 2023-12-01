@@ -2,7 +2,9 @@
 #define CATE_H_INCLUDED
 #include <stdio.h>
 #include <stdlib.h>
+// #include <windows.h>
 #include "prodact.c"
+// #include "tools.c"
 
 struct Category {
    int cat_id;
@@ -100,14 +102,14 @@ Category pop_at(ListOfCategory* l, int index) {
 void ShowCategorys(ListOfCategory * l) {
    for (int i = 0; i < l->len; i++) {
       printf("\tCategory ID   :%d\n",l->arr[i].cat_id);
-      printf("\tCategory Name : %s",l->arr[i].cat_name);
+      printf("\tCategory Name : %s\n",l->arr[i].cat_name);
    }
    printf("\n");
 }
 
 Category addCategory() {
    Category  cate;
-   printf("Enter Category Name : ", cate.cat_name);
+   printf("\t\tEnter Category Name : ", cate.cat_name);
    scanf("%s",&cate.cat_name);
    cate.cat_id = C_COUNTER;
    C_COUNTER++;
@@ -116,17 +118,21 @@ Category addCategory() {
 
 void DisplayProdacts(ListOfCategory* c,ListOfProdacts *p) {
    for(int i = 0; i < c->len; i++) {
-      printf("\n========== {%s} ============\n",c->arr->cat_name);
+      printf("\n================= { %s } ====================\n",c->arr[i].cat_name);
       for(int k = 0; k < p->len; k++) {
-            if(c->arr->cat_id == p->arr->cat_id) {
-               printf("Prodact ID       : %d\n", p->arr->id);
-               printf("Prodact Name     : %s\n", p->arr->name);
-               printf("Prodact Price    : %f\n", p->arr->price);
-               printf("Prodact Quantity : %d\n", p->arr->quntity);
+            if(c->arr[i].cat_id == p->arr[k].cat_id) {
+               printf("\t\tProdact ID       : %d\n", p->arr[k].id);
+               printf("\t\tProdact Name     : %s\n", p->arr[k].name);
+               printf("\t\tProdact Price    : %f\n", p->arr[k].price);
+               printf("\t\tProdact Quantity : %d\n", p->arr[k].quntity);
+               printf("------------------------------------------------\n");
             }
       }
+      printf("\n");
    }
 }
+
+
 
 
 

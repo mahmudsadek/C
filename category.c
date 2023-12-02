@@ -101,15 +101,16 @@ Category pop_at(ListOfCategory* l, int index) {
 
 void ShowCategorys(ListOfCategory * l) {
    for (int i = 0; i < l->len; i++) {
+      printf("\n\n+++++++++++++++++++++++++++++++++++++\n");
       printf("\tCategory ID   :%d\n",l->arr[i].cat_id);
       printf("\tCategory Name : %s\n",l->arr[i].cat_name);
+      printf("+++++++++++++++++++++++++++++++++++++\n");
    }
-   printf("\n");
 }
 
 Category addCategory() {
    Category  cate;
-   printf("\t\tEnter Category Name : ", cate.cat_name);
+   printf("\n\n\n\t\tEnter Category Name : ", cate.cat_name);
    scanf("%s",&cate.cat_name);
    cate.cat_id = C_COUNTER;
    C_COUNTER++;
@@ -118,7 +119,7 @@ Category addCategory() {
 
 void DisplayProdacts(ListOfCategory* c,ListOfProdacts *p) {
    for(int i = 0; i < c->len; i++) {
-      printf("\n================= { %s } ====================\n",c->arr[i].cat_name);
+      printf("\n================= [ %s ] ====================\n",c->arr[i].cat_name);
       for(int k = 0; k < p->len; k++) {
             if(c->arr[i].cat_id == p->arr[k].cat_id) {
                printf("\t\tProdact ID       : %d\n", p->arr[k].id);

@@ -40,23 +40,25 @@ int chooseCategory(ListOfCategory *c) {
       system("cls");
       SetColor(15);
       gotoxy(X_Axies,9);
-      printf("\tChoose Category :" );
+      printf("\tChoose Category :\n" );
+      gotoxy(X_Axies,10);
       printf("================================================");
       for (int i = 0; i < C_COUNTER; i++) {
          if(Y_Axies == i) {
             SetColor(1);
-            gotoxy(X_Axies,i+10);
-            printf("\tName : %s",c->arr[Y_Axies].cat_name);
+            gotoxy(X_Axies,i+11);
+            printf("\tName : %s\n",c->arr[Y_Axies].cat_name);
          }
          else {
             SetColor(15);
-            gotoxy(X_Axies,i+10);
-            printf("\tName : %s",c->arr[i].cat_name);
+            gotoxy(X_Axies,i+11);
+            printf("\tName : %s\n",c->arr[i].cat_name);
          }
       }
       SetColor(15);
-      gotoxy(X_Axies,C_COUNTER);
+      gotoxy(X_Axies,C_COUNTER+11);
       printf("===============================================\n");
+      gotoxy(X_Axies,C_COUNTER+11);
       char ch;
       ch = getch();
       switch (ch) {
@@ -93,6 +95,7 @@ void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
       system("cls");
       SetColor(15);
       gotoxy(X_Axies,9);
+      printf("\t Choose Prodact to Move\n");
       printf("================================================");
       for (int i = 0; i < P_COUNTER; i++) {
          if(Y_Axies == i) {
@@ -107,7 +110,7 @@ void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
          }
       }
       SetColor(15);
-      gotoxy(X_Axies,P_COUNTER);
+      gotoxy(X_Axies,P_COUNTER+10);
       printf("===============================================\n");
       char ch;
       ch = getch();

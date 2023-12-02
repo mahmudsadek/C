@@ -107,7 +107,7 @@ Prodact pop_at_p(ListOfProdacts* l, int index) {
 Prodact addProdact() {
    Prodact p;
    p.id = P_COUNTER;
-   printf("\tProdact Name    : ");
+   printf("\n\n\n\tProdact Name    : ");
    scanf("%s", p.name);
    printf("\tProdact Price   : ");
    scanf("%f", &p.price);

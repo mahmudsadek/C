@@ -31,6 +31,60 @@ void SetColor(int ForgC) {
 }
 
 
+
+int chooseCategory(ListOfCategory *c) {
+   int X_Axies = 10;
+   int Y_Axies = 0;
+   int flag = 1;
+   do {
+      system("cls");
+      SetColor(15);
+      gotoxy(X_Axies,9);
+      printf("\tChoose Category :" );
+      printf("================================================");
+      for (int i = 0; i < C_COUNTER; i++) {
+         if(Y_Axies == i) {
+            SetColor(1);
+            gotoxy(X_Axies,i+10);
+            printf("\tName : %s",c->arr[Y_Axies].cat_name);
+         }
+         else {
+            SetColor(15);
+            gotoxy(X_Axies,i+10);
+            printf("\tName : %s",c->arr[i].cat_name);
+         }
+      }
+      SetColor(15);
+      gotoxy(X_Axies,C_COUNTER);
+      printf("===============================================\n");
+      char ch;
+      ch = getch();
+      switch (ch) {
+      case -32:
+         ch = getch();
+         switch(ch) {
+         case 80:
+            Y_Axies++;
+            if(Y_Axies >= C_COUNTER) {
+               Y_Axies = 0;
+            }
+            break;
+         case 72:
+            Y_Axies--;
+            if(Y_Axies < 0) {
+               Y_Axies = C_COUNTER-1;
+            }
+            break;
+         default:
+            break;
+         }
+         break;
+      case 13:
+         return Y_Axies;
+      }
+   }while(flag);
+}
+
 void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
    int X_Axies = 10;
    int Y_Axies = 0;
@@ -78,19 +132,7 @@ void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
          }
          break;
       case 13:
-         int id;
-         int flag2 = 1;
-         while(flag2) {
-            system("cls");
-            printf("\t\tEnter Category Id to Move to: ");
-            scanf("%d", &id);
-            for(int i = 0; i < C_COUNTER; i++) {
-               if(id == c->arr[i].cat_id) {
-                  flag2 = 0;
-                  break;
-               }
-            }
-         }
+         int id = chooseCategory(c);
          p->arr[Y_Axies].cat_id = id;
          break;
       // case 27:
@@ -162,6 +204,7 @@ void ProdactMenu(ListOfCategory *c, ListOfProdacts *p) {
          case 0:
             system("cls");
             push_back_p(p, addProdact());
+            p->arr[P_COUNTER-1].cat_id = chooseCategory(c);
             break;
          case 1:
             system("cls");

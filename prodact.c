@@ -103,6 +103,7 @@ Prodact pop_at_p(ListOfProdacts* l, int index) {
    }
 }
 
+
 Prodact addProdact() {
    Prodact p;
    p.id = P_COUNTER;
@@ -113,10 +114,8 @@ Prodact addProdact() {
    printf("\tProdact Quntity : ");
    scanf("%d", &p.quntity);
    printf("\tProdact Category: ");
-   scanf("%d", &p.cat_id);
    P_COUNTER++;
    return p;
-
 }
 
 

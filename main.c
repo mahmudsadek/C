@@ -39,22 +39,22 @@ void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
       system("cls");
       SetColor(15);
       gotoxy(X_Axies,9);
-      printf("================================================\n");
+      printf("================================================");
       for (int i = 0; i < P_COUNTER; i++) {
          if(Y_Axies == i) {
-            SetColor(3);
+            SetColor(1);
             gotoxy(X_Axies,i+10);
-            printf("\tName : %s\t ID: %d\t Cate ID: %d\n",p->arr[Y_Axies].name, p->arr[Y_Axies].id,  p->arr[Y_Axies].cat_id);
+            printf("\tName : %s\t ID: %d\t Cate ID: %d",p->arr[Y_Axies].name, p->arr[Y_Axies].id,  p->arr[Y_Axies].cat_id);
          }
          else {
             SetColor(15);
             gotoxy(X_Axies,i+10);
-            printf("\tName : %s\t ID: %d\t Cate ID: %d\n",p->arr[i].name, p->arr[i].id, p->arr[i].cat_id);
+            printf("\tName : %s\t ID: %d\t Cate ID: %d",p->arr[i].name, p->arr[i].id, p->arr[i].cat_id);
          }
-         SetColor(15);
-         gotoxy(X_Axies,P_COUNTER+1);
-         printf("===============================================\n");
       }
+      SetColor(15);
+      gotoxy(X_Axies,P_COUNTER);
+      printf("===============================================\n");
       char ch;
       ch = getch();
       switch (ch) {

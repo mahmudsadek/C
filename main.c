@@ -47,12 +47,12 @@ int chooseCategory(ListOfCategory *c) {
          if(Y_Axies == i) {
             SetColor(1);
             gotoxy(X_Axies,i+11);
-            printf("\tName : %s\n",c->arr[Y_Axies].cat_name);
+            printf("\tName : %19s\n",c->arr[Y_Axies].cat_name);
          }
          else {
             SetColor(15);
             gotoxy(X_Axies,i+11);
-            printf("\tName : %s\n",c->arr[i].cat_name);
+            printf("\tName : %19s\n",c->arr[i].cat_name);
          }
       }
       SetColor(15);
@@ -101,12 +101,12 @@ void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
          if(Y_Axies == i) {
             SetColor(1);
             gotoxy(X_Axies,i+11);
-            printf("\tName : %s\t ID: %d\t Cate ID: %d",p->arr[Y_Axies].name, p->arr[Y_Axies].id,  p->arr[Y_Axies].cat_id);
+            printf("\tName : %19s\t ID: %d\t Cate ID: %d",p->arr[Y_Axies].name, p->arr[Y_Axies].id,  p->arr[Y_Axies].cat_id);
          }
          else {
             SetColor(15);
             gotoxy(X_Axies,i+11);
-            printf("\tName : %s\t ID: %d\t Cate ID: %d",p->arr[i].name, p->arr[i].id, p->arr[i].cat_id);
+            printf("\tName : %19s\t ID: %d\t Cate ID: %d",p->arr[i].name, p->arr[i].id, p->arr[i].cat_id);
          }
       }
       SetColor(15);
@@ -245,12 +245,12 @@ void chooseProduct(ListOfProdacts *order, ListOfProdacts *p) {
          if(Y_Axies == i) {
             SetColor(1);
             gotoxy(X_Axies,i+11);
-            printf("\tName : %s \t Price : %f\n", p->arr[Y_Axies].name, p->arr[Y_Axies].price);
+            printf("\tName : %19s \t Price : %f\n", p->arr[Y_Axies].name, p->arr[Y_Axies].price);
          }
          else {
             SetColor(15);
             gotoxy(X_Axies,i+11);
-            printf("\tName : %s \t Price : %f\n", p->arr[i].name, p->arr[i].price);
+            printf("\tName : %19s \t Price : %f\n", p->arr[i].name, p->arr[i].price);
          }
       }
       SetColor(15);
@@ -288,13 +288,14 @@ void chooseProduct(ListOfProdacts *order, ListOfProdacts *p) {
          if(q > p->arr[Y_Axies].quntity) {
             gotoxy(X_Axies,11);
             printf("Sorry There is no enough quantity !");
+            getch();
          }
          else if(q == p->arr[Y_Axies].quntity) {
-            order->arr[Y_Axies] = p->arr[Y_Axies];
+            push_back_p(order, p->arr[Y_Axies]);
             pop_at_p(p, Y_Axies);
          }
          else {
-            order->arr[Y_Axies] = p->arr[Y_Axies];
+            push_back_p(order, p->arr[Y_Axies]);
             order->arr[Y_Axies].quntity = q;
             p->arr[Y_Axies].quntity -= q;
          }
@@ -309,14 +310,18 @@ void chooseProduct(ListOfProdacts *order, ListOfProdacts *p) {
 void showBill(ListOfProdacts *order) {
    SetColor(23);
    float total = 0;
+   float price = 0;
    printf("\n\n");
+   printf("\t---------------------------------------------------------------------------------------\n");
    for (int i = 0; i < order->len; i++) {
-      int price = order->arr->quntity*order->arr->price;
-      printf("\t\tName: %s \tQuantity: %d\t price: %f\n", order->arr->name, order->arr->quntity, price);
-      printf("------------------------------------------------------------------------------------------");
+      price = (order->arr[i].quntity) * (order->arr[i].price);
+      printf("\t\tName: %19s \tQuantity: %d\t price: %f\n", order->arr[i].name, order->arr[i].quntity, price);
+      printf("\t---------------------------------------------------------------------------------------\n");
       total += price;
    }
-      printf("\n \t\t Totol Price: %f",total);
+      printf("\t=======================================================================================\n");
+      printf("\t\t Totol Price: %f\n",total);
+      printf("\t=======================================================================================\n");
 }
 
 void BuyMenu(ListOfProdacts *order,ListOfProdacts *p) {
@@ -469,9 +474,8 @@ void CategoryMenu(ListOfCategory *c) {
    
 }
 
-void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
-   ListOfProdacts order;
-   makeListOfProdacts(&order, 5);
+void MainMenu(ListOfCategory *c, ListOfProdacts *p, ListOfProdacts *order) {
+
    char menu[3][20] = {
       "1- Category",
       "2- Prodact",
@@ -535,7 +539,7 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
             break;
          case 2:
             system("cls");
-            BuyMenu(&order,p);
+            BuyMenu(order,p);
             break;
          default:
             break;
@@ -550,9 +554,13 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
 int main () {
    ListOfCategory category;
    makeListOfCategory(&category, 5);
+   
    ListOfProdacts prodact;
    makeListOfProdacts(&prodact,5);
 
-   MainMenu(&category, &prodact);
+   ListOfProdacts order;
+   makeListOfProdacts(&order, 5);
+
+   MainMenu(&category, &prodact, &order);
 
 }

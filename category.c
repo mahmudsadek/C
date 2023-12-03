@@ -30,13 +30,13 @@ void makeListOfCategory(ListOfCategory * l, int size) {
 
 void expandSize(ListOfCategory *l) {
       l->size *= 2;
-      Category * arr2 = (Category*) malloc(l->size * sizeof(Category));
-      for (int i = 0; i < l->len; i++) {
-         arr2[i].cat_id = l->arr[i].cat_id;
-         strcpy(arr2[i].cat_name , l->arr[i].cat_name);
-      }
-      free(l->arr);
-      l->arr = arr2;
+      l->arr = (Category*) realloc(l->arr, l->size * sizeof(Category));
+      // for (int i = 0; i < l->len; i++) {
+      //    arr2[i].cat_id = l->arr[i].cat_id;
+      //    strcpy(arr2[i].cat_name , l->arr[i].cat_name);
+      // }
+      // free(l->arr);
+      // l->arr = arr2;
 }
 
 int l_length(ListOfCategory *l) {

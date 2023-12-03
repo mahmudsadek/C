@@ -32,16 +32,17 @@ void makeListOfProdacts(ListOfProdacts * l, int size) {
 
 void expandSize_p(ListOfProdacts *l) {
       l->size *= 2;
-      Prodact * arr2 = (Prodact*)malloc(l->size * sizeof(Prodact));
-      for (int i = 0; i < l->len; i++) {
-         arr2[i].id = l->arr[i].id;
-         strcpy(arr2[i].name , l->arr[i].name);
-         arr2->quntity = l->arr[i].quntity;
-         arr2->price = l->arr[i].price;
-         arr2->cat_id = l->arr[i].cat_id;
-      }
-      free(l->arr);
-      l->arr = arr2;
+      l->arr = (Prodact*)realloc(l->arr,sizeof(Prodact) * l->size);
+      // Prodact * arr2 = calloc(l->size , sizeof(Prodact));
+      // for (int i = 0; i < l->len; i++) {
+      //    arr2[i].id = l->arr[i].id;
+      //    strcpy(arr2[i].name , l->arr[i].name);
+      //    arr2->quntity = l->arr[i].quntity;
+      //    arr2->price = l->arr[i].price;
+      //    arr2->cat_id = l->arr[i].cat_id;
+      // }
+      // free(l->arr);
+      // l->arr = arr2;
 }
 
 int l_length_p(ListOfProdacts *l) {

@@ -69,6 +69,7 @@ Prodact pop_back_p(ListOfProdacts * l) {
       printf("You Can Not pop, List is Empty ");
    }
    else {
+      P_COUNTER--;
       l->len--;
       return l->arr[l->len];
    }
@@ -99,6 +100,7 @@ Prodact pop_at_p(ListOfProdacts* l, int index) {
          l->arr[i] = l->arr[i+1];
       }
       l->len--;
+      P_COUNTER--;
       return ele;
    }
 }

@@ -11,23 +11,23 @@ COORD coord= {0,0};                  // this is global variable
 
 //center of axis is set to the top left corner of the screen
 void gotoxy(int x,int y) {
-    coord.X=x;
-    coord.Y=y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+   coord.X=x;
+   coord.Y=y;
+   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
 }
 
 
 void SetColor(int ForgC) {
-    WORD wColor;
+   WORD wColor;
 
-    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
+   HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+   CONSOLE_SCREEN_BUFFER_INFO csbi;
 
-    if(GetConsoleScreenBufferInfo(hStdOut, &csbi)) {
-        wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
-        SetConsoleTextAttribute(hStdOut, wColor);
-    }
-    return;
+   if(GetConsoleScreenBufferInfo(hStdOut, &csbi)) {
+      wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+      SetConsoleTextAttribute(hStdOut, wColor);
+   }
+   return;
 }
 
 
@@ -96,21 +96,21 @@ void moveProdact(ListOfCategory *c, ListOfProdacts *p) {
       SetColor(15);
       gotoxy(X_Axies,9);
       printf("\t Choose Prodact to Move\n");
-      printf("================================================");
+      printf("\t================================================\n");
       for (int i = 0; i < P_COUNTER; i++) {
          if(Y_Axies == i) {
             SetColor(1);
-            gotoxy(X_Axies,i+10);
+            gotoxy(X_Axies,i+11);
             printf("\tName : %s\t ID: %d\t Cate ID: %d",p->arr[Y_Axies].name, p->arr[Y_Axies].id,  p->arr[Y_Axies].cat_id);
          }
          else {
             SetColor(15);
-            gotoxy(X_Axies,i+10);
+            gotoxy(X_Axies,i+11);
             printf("\tName : %s\t ID: %d\t Cate ID: %d",p->arr[i].name, p->arr[i].id, p->arr[i].cat_id);
          }
       }
       SetColor(15);
-      gotoxy(X_Axies,P_COUNTER+10);
+      gotoxy(X_Axies,P_COUNTER+11);
       printf("===============================================\n");
       char ch;
       ch = getch();
@@ -230,8 +230,159 @@ void ProdactMenu(ListOfCategory *c, ListOfProdacts *p) {
    } while(flag);
 }
 
-void BuyMenu() {
+void chooseProduct(ListOfProdacts *order, ListOfProdacts *p) {
+   int X_Axies = 10;
+   int Y_Axies = 0;
+   int flag = 1;
+   do {
+      system("cls");
+      SetColor(15);
+      gotoxy(X_Axies,9);
+      printf("\tChoose Prodact :\n" );
+      gotoxy(X_Axies,10);
+      printf("================================================");
+      for (int i = 0; i < P_COUNTER; i++) {
+         if(Y_Axies == i) {
+            SetColor(1);
+            gotoxy(X_Axies,i+11);
+            printf("\tName : %s \t Price : %f\n", p->arr[Y_Axies].name, p->arr[Y_Axies].price);
+         }
+         else {
+            SetColor(15);
+            gotoxy(X_Axies,i+11);
+            printf("\tName : %s \t Price : %f\n", p->arr[i].name, p->arr[i].price);
+         }
+      }
+      SetColor(15);
+      gotoxy(X_Axies,P_COUNTER+11);
+      printf("===============================================\n");
+      gotoxy(X_Axies,P_COUNTER+12);
+      char ch;
+      ch = getch();
+      switch (ch) {
+      case -32:
+         ch = getch();
+         switch(ch) {
+         case 80:
+            Y_Axies++;
+            if(Y_Axies >= P_COUNTER) {
+               Y_Axies = 0;
+            }
+            break;
+         case 72:
+            Y_Axies--;
+            if(Y_Axies < 0) {
+               Y_Axies = P_COUNTER-1;
+            }
+            break;
+         default:
+            break;
+         }
+         break;
+      case 13:
+         system("cls");
+         int q;
+         gotoxy(X_Axies,10);
+         printf("Enter Quantity :");
+         scanf("%d", &q);
+         if(q > p->arr[Y_Axies].quntity) {
+            gotoxy(X_Axies,11);
+            printf("Sorry There is no enough quantity !");
+         }
+         else if(q == p->arr[Y_Axies].quntity) {
+            order->arr[Y_Axies] = p->arr[Y_Axies];
+            pop_at_p(p, Y_Axies);
+         }
+         else {
+            order->arr[Y_Axies] = p->arr[Y_Axies];
+            order->arr[Y_Axies].quntity = q;
+            p->arr[Y_Axies].quntity -= q;
+         }
+         break;
+      case 27:
+         flag = 0;
+         break;
+      }
+   }while(flag);
 }
+
+void BuyMenu(ListOfProdacts *p) {
+   ListOfProdacts order;
+   makeListOfProdacts(&order, 5);
+   char Menu[2][20] = {
+      "1- Buy Product",
+      "2- Show Bill"
+   };
+   int X_Axies = 10;
+   int Y_Axies = 0;
+   int flag = 1;
+   do {
+      system("cls");
+      SetColor(15);
+      gotoxy(X_Axies,9);
+      printf("===========================");
+      for (int i = 0; i < 2; i++) {
+      if(Y_Axies == i) {
+         SetColor(3);
+         gotoxy(X_Axies,i+10);
+         printf("\t%s\n",Menu[i]);
+      }
+      else {
+         SetColor(15);
+         gotoxy(X_Axies,i+10);
+         printf("\t%s\n", Menu[i]);
+      }
+      SetColor(15);
+      gotoxy(X_Axies,12);
+      printf("===========================");
+      }
+      char ch;
+      ch = getch();
+      switch (ch)
+      {
+      case -32:
+         ch = getch();
+         switch(ch) {
+         case 80:
+            Y_Axies++;
+            if(Y_Axies > 2) {
+               Y_Axies = 0;
+            }
+            break;
+         case 72:
+            Y_Axies--;
+            if(Y_Axies < 0) {
+               Y_Axies = 2;
+            }
+            break;
+         }
+         break;
+      case 13:
+         switch (Y_Axies)
+         {
+         case 0:
+            system("cls");
+            chooseProduct(&order, p);
+            break;
+         case 1:
+            system("cls");
+            
+            getch();
+            break;
+         default:
+            break;
+         }
+         break;
+      default:
+         break;
+      case 27:
+      flag = 0;
+      }
+   }while(flag);
+
+}
+
+
 void CategoryMenu(ListOfCategory *c) {
    char cateMenu[2][20] = {
       "1- Add Category",
@@ -370,7 +521,7 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
             break;
          case 2:
             system("cls");
-            BuyMenu();
+            BuyMenu(p);
             break;
          default:
             break;

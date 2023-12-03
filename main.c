@@ -306,9 +306,21 @@ void chooseProduct(ListOfProdacts *order, ListOfProdacts *p) {
    }while(flag);
 }
 
-void BuyMenu(ListOfProdacts *p) {
-   ListOfProdacts order;
-   makeListOfProdacts(&order, 5);
+void showBill(ListOfProdacts *order) {
+   SetColor(23);
+   float total = 0;
+   printf("\n\n");
+   for (int i = 0; i < order->len; i++) {
+      int price = order->arr->quntity*order->arr->price;
+      printf("\t\tName: %s \tQuantity: %d\t price: %f\n", order->arr->name, order->arr->quntity, price);
+      printf("------------------------------------------------------------------------------------------");
+      total += price;
+   }
+      printf("\n \t\t Totol Price: %f",total);
+}
+
+void BuyMenu(ListOfProdacts *order,ListOfProdacts *p) {
+   
    char Menu[2][20] = {
       "1- Buy Product",
       "2- Show Bill"
@@ -362,11 +374,11 @@ void BuyMenu(ListOfProdacts *p) {
          {
          case 0:
             system("cls");
-            chooseProduct(&order, p);
+            chooseProduct(order, p);
             break;
          case 1:
             system("cls");
-            
+            showBill(order);
             getch();
             break;
          default:
@@ -458,6 +470,8 @@ void CategoryMenu(ListOfCategory *c) {
 }
 
 void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
+   ListOfProdacts order;
+   makeListOfProdacts(&order, 5);
    char menu[3][20] = {
       "1- Category",
       "2- Prodact",
@@ -521,7 +535,7 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p) {
             break;
          case 2:
             system("cls");
-            BuyMenu(p);
+            BuyMenu(&order,p);
             break;
          default:
             break;

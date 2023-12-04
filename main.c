@@ -211,12 +211,24 @@ void ProdactMenu(ListOfCategory *c, ListOfProdacts *p) {
             break;
          case 1:
             system("cls");
-            DisplayProdacts(c, p);
-            getch();
+            if(p->len == 0) {
+               printf("No Product to Show!");
+               getch();
+            }
+            else {
+               DisplayProdacts(c, p);
+               getch();
+            }
             break;
          case 2:
             system("cls");
-            moveProdact(c, p);
+            if(p->len == 0) {
+               printf("No Product to Move!");
+               getch();
+            }
+            else {
+               moveProdact(c, p);
+            }
             break;
          default:
             break;
@@ -399,7 +411,12 @@ void BuyMenu(ListOfProdacts *order,ListOfProdacts *p) {
             break;
          case 1:
             system("cls");
-            showBill(order);
+            if(order->len == 0) {
+               printf("NO Product has been sold yet!");
+            }
+            else {
+               showBill(order);
+            }
             getch();
             break;
          default:
@@ -474,7 +491,13 @@ void CategoryMenu(ListOfCategory *c) {
             break;
          case 1:
             system("cls");
-            ShowCategorys(c);
+            if(c->len == 0) {
+               printf("cant enter, add cat first!");
+               getch();
+            }
+            else {
+               ShowCategorys(c);
+            }
             getch();
             break;
          default:
@@ -551,11 +574,23 @@ void MainMenu(ListOfCategory *c, ListOfProdacts *p, ListOfProdacts *order) {
             break;
          case 1:
             system("cls");
-            ProdactMenu(c, p);
+            if(c->len == 0){
+               printf("YOU Can Enter, ADD Category first!\n");
+               getch();
+            }
+            else {
+               ProdactMenu(c, p);
+            } 
             break;
          case 2:
             system("cls");
+            if(p->len == 0) {
+               printf("YOU Can Enter, ADD Product first!\n");
+               getch();
+            }
+            else {
             BuyMenu(order,p);
+            }
             break;
          default:
             break;

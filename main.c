@@ -295,8 +295,24 @@ void chooseProduct(ListOfProdacts *order, ListOfProdacts *p) {
             pop_at_p(p, Y_Axies);
          }
          else {
-            push_back_p(order, p->arr[Y_Axies]);
-            order->arr[Y_Axies].quntity = q;
+            if(order->len > 0) {
+               int flag = 1;
+               for(int i = 0; i < order->len; i++) {
+                  if(order->arr[i].id == p->arr[Y_Axies].id) {
+                     order->arr[i].quntity += q;
+                     flag = 0;
+                     break;
+                  }
+               }
+               if(flag) {
+                  push_back_p(order, p->arr[Y_Axies]);
+                  order->arr[Y_Axies].quntity = q;
+               }
+            }
+            else {
+               push_back_p(order, p->arr[Y_Axies]);
+               order->arr[Y_Axies].quntity = q;
+            }
             p->arr[Y_Axies].quntity -= q;
          }
          break;
@@ -315,7 +331,7 @@ void showBill(ListOfProdacts *order) {
    printf("\t---------------------------------------------------------------------------------------\n");
    for (int i = 0; i < order->len; i++) {
       price = (order->arr[i].quntity) * (order->arr[i].price);
-      printf("\t\tName: %19s \tQuantity: %d\t price: %f\n", order->arr[i].name, order->arr[i].quntity, price);
+      printf("\t\tName: %19s \tQuantity: %d\t price: %f\n",order->arr[i].name, order->arr[i].quntity, price);
       printf("\t---------------------------------------------------------------------------------------\n");
       total += price;
    }
